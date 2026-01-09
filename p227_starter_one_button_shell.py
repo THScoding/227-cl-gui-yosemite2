@@ -4,9 +4,26 @@ import tkinter.scrolledtext as tksc
 from tkinter import filedialog
 from tkinter.filedialog import asksaveasfilename
 
-def do_command(ip):
+def do_command(ip, option_selected):
+    
     if ip != "":
-        command = ["ping", ip, "-n", "4"]
+        if option_selected == "nslookup":
+            command = ["nslookup", ip]
+        elif option_selected == "ping":
+            command = ["ping", ip, "-n", "4"]
+        elif option_selected == "nmap":
+            command = ["nmap", ip]
+        elif option_selected == "tracert":
+            command = ["tracert", ip]
+        else:
+            root1 = tk.Tk()
+            root1.wm_geometry("200x200")
+            root1.title("No command destined")
+            frame_wrong = tk.Frame(root1)
+            frame_wrong.grid()
+    
+            lbl_wrong = tk.Label(frame_wrong, text="Please enter a valid command.", font="Times, 26")
+            lbl_wrong.pack()
     else:
         root1 = tk.Tk()
         root1.wm_geometry("200x200")
@@ -14,23 +31,28 @@ def do_command(ip):
         frame_wrong = tk.Frame(root1)
         frame_wrong.grid()
     
-        lbl_wrong = tk.Label(frame_wrong, text="Please enter an IP address", font="Times, 26")
+        lbl_wrong = tk.Label(frame_wrong, text="Please enter an IP address.", font="Times, 26")
         lbl_wrong.pack()
     # Mac version to limit to 4 requests:     command = ["ping", "localhost", "-n", "4"]
     
     subprocess.run(command)
 def get_text():
     ip = ip_entry.get()
-    do_command(ip)
+    option_selected = options_spinbox.get()
+    do_command(ip, option_selected)
 root = tk.Tk()
 frame = tk.Frame(root)
 frame.pack()
 
 # set up button to run the do_command function
 ping_btn = tk.Button(frame, text="ping", command=get_text)
-ping_btn.pack()
 ip = ""
+options = ('ping', 'nslookup', 'tracert', 'nmap')
 ip_entry = tk.Entry(frame, width=16, textvariable=ip)
+command_textbox = tksc.ScrolledText(frame, height=10, width=100) 
+options_spinbox = tk.Spinbox(frame, values=options)
 ip_entry.pack()
-
+ping_btn.pack()
+command_textbox.pack()
+options_spinbox.pack()
 root.mainloop()

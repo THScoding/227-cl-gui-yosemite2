@@ -5,7 +5,6 @@ from tkinter import filedialog
 from tkinter.filedialog import asksaveasfilename
 
 def do_command(ip, option_selected):
-    
     if ip != "":
         if option_selected == "nslookup":
             command = ["nslookup", ip]
@@ -53,9 +52,19 @@ def do_command(ip, option_selected):
             lbl_wrong = tk.Label(frame_wrong, text="An Error Occured. Please double-check your selected options.", font="Times, 26")
             lbl_wrong.pack()
 def get_text():
-    ip = ip_entry.get()
-    option_selected = options_listbox.get()
-    do_command(ip, option_selected)
+    try:
+        ip = ip_entry.get()
+        option_selected = options_listbox.get()
+        do_command(ip, option_selected)
+    except BaseException:
+        root1 = tk.Tk()
+        root1.wm_geometry("200x200")
+        root1.title("An Error Occured")
+        frame_wrong = tk.Frame(root1)
+        frame_wrong.grid()
+    
+        lbl_wrong = tk.Label(frame_wrong, text="An Error Occured. Please double-check your selected options.", font="Times, 26")
+        lbl_wrong.pack()
 def mSave():
   filename = asksaveasfilename(defaultextension='.txt',filetypes = (('Text files', '*.txt'),('Python files', '*.py *.pyw'),('All files', '*.*')))
   if filename is None:
@@ -72,14 +81,16 @@ frame.pack()
 # set up button to run the do_command function
 execute_btn = tk.Button(frame, text="Execute Operation", command=get_text)
 ip = ""
-options = ('ping', 'nslookup', 'tracert', 'nmap')
+options = ['ping', 'nslookup', 'tracert', 'nmap']
 ip_entry = tk.Entry(frame, width=16, textvariable=ip)
-command_textbox = tksc.ScrolledText(frame, height=10, width=100) 
-options_spinbox = tk.Spinbox(frame, values=options, state="readonly")
+command_textbox = tksc.ScrolledText(frame, height=10, width=50) 
+options_listbox = tk.Listbox(frame, height=4)
 save_output_btn = tk.Button(frame, text="Save Output", command=mSave)
+for option in options:
+    options_listbox.insert(tk.END, option)
 ip_entry.pack()
 execute_btn.pack()
 save_output_btn.pack()
-options_spinbox.pack()
+options_listbox.pack()
 command_textbox.pack()
 root.mainloop()

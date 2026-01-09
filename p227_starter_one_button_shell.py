@@ -64,8 +64,8 @@ execute_btn = tk.Button(frame, text="Execute Operation", command=get_text)
 ip = ""
 options = ['ping', 'nslookup', 'tracert', 'nmap']
 ip_entry = tk.Entry(frame, width=16, textvariable=ip)
-command_textbox = tksc.ScrolledText(frame, height=10, width=100) 
-options_listbox = tk.Listbox(frame)
+command_textbox = tksc.ScrolledText(frame, height=10, width=50) 
+options_listbox = tk.Listbox(frame, height=4)
 save_output_btn = tk.Button(frame, text="Save Output", command=mSave)
 for option in options:
     options_listbox.insert(tk.END, option)

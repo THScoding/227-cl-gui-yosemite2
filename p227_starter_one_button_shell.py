@@ -33,15 +33,25 @@ def do_command(ip, option_selected):
         lbl_wrong = tk.Label(frame_wrong, text="Please enter an IP address.", font="Times, 26")
         lbl_wrong.pack()
     # Mac version to limit to 4 requests:     command = ["ping", "localhost", "-n", "4"]
-    global command_textbox
+    try:
+        global command_textbox
     
-    command_textbox.delete(1.0, tk.END)
-    command_textbox.update()
+        command_textbox.delete(1.0, tk.END)
+        command_textbox.update()
 
-    with subprocess.Popen(command,stdout=subprocess.PIPE, bufsize=1, universal_newlines=True) as p:
-        for line in p.stdout:
-            command_textbox.insert(tk.END,line)
-            command_textbox.update()
+        with subprocess.Popen(command,stdout=subprocess.PIPE, bufsize=1, universal_newlines=True) as p:
+            for line in p.stdout:
+                command_textbox.insert(tk.END,line)
+                command_textbox.update()
+    except BaseException:
+            root1 = tk.Tk()
+            root1.wm_geometry("200x200")
+            root1.title("An Error Occured")
+            frame_wrong = tk.Frame(root1)
+            frame_wrong.grid()
+    
+            lbl_wrong = tk.Label(frame_wrong, text="An Error Occured. Please double-check your selected options.", font="Times, 26")
+            lbl_wrong.pack()
 def get_text():
     ip = ip_entry.get()
     option_selected = options_listbox.get()

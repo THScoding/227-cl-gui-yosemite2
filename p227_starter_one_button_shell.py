@@ -42,28 +42,29 @@ def do_command(ip, option_selected):
             for line in p.stdout:
                 command_textbox.insert(tk.END,line)
                 command_textbox.update()
-    except BaseException:
+    except BaseException as e:
             root1 = tk.Tk()
             root1.wm_geometry("200x200")
             root1.title("An Error Occured")
             frame_wrong = tk.Frame(root1)
             frame_wrong.grid()
     
-            lbl_wrong = tk.Label(frame_wrong, text="An Error Occured. Please double-check your selected options.", font="Times, 26")
+            lbl_wrong = tk.Label(frame_wrong, text="An Error Occured. Please double-check your selected options.\nError caught: " + str(e), font="Times, 26")
             lbl_wrong.pack()
 def get_text():
     try:
         ip = ip_entry.get()
-        option_selected = options_listbox.get()
+        option_selected = options_listbox.curselection()
+        option_selected = options_listbox.get(option_selected)
         do_command(ip, option_selected)
-    except BaseException:
+    except BaseException as e:
         root1 = tk.Tk()
         root1.wm_geometry("200x200")
         root1.title("An Error Occured")
         frame_wrong = tk.Frame(root1)
         frame_wrong.grid()
     
-        lbl_wrong = tk.Label(frame_wrong, text="An Error Occured. Please double-check your selected options.", font="Times, 26")
+        lbl_wrong = tk.Label(frame_wrong, text="An Error Occured. Please double-check your selected options.\nError caught: " + str(e), font="Times, 26")
         lbl_wrong.pack()
 def mSave():
   filename = asksaveasfilename(defaultextension='.txt',filetypes = (('Text files', '*.txt'),('Python files', '*.py *.pyw'),('All files', '*.*')))

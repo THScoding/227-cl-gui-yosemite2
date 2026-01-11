@@ -3,6 +3,7 @@ import tkinter as tk
 import tkinter.scrolledtext as tksc
 from tkinter import filedialog
 from tkinter.filedialog import asksaveasfilename
+from tkinter import messagebox
 
 def do_command(ip, option_selected):
     if ip != "":
@@ -15,22 +16,17 @@ def do_command(ip, option_selected):
         elif option_selected == "tracert":
             command = ["tracert", ip]
         else:
-            root1 = tk.Tk()
-            root1.wm_geometry("200x200")
-            root1.title("No command destined")
-            frame_wrong = tk.Frame(root1)
-            frame_wrong.grid()
-    
-            lbl_wrong = tk.Label(frame_wrong, text="Please enter a valid command.", font="Times, 26")
-            lbl_wrong.pack()
+            messagebox.showerror(
+                title="An Error Occured", #the title doesnt work still ugh
+                message="Please Enter A Calid Command",
+                parent=frame
+            )
     else:
-        root1 = tk.Tk()
-        root1.wm_geometry("200x200")
-        root1.title("No IP destined")
-        frame_wrong = tk.Frame(root1)
-        frame_wrong.grid()
-        lbl_wrong = tk.Label(frame_wrong, text="Please enter an IP address.", font="Times, 26")
-        lbl_wrong.pack()
+        messagebox.showerror(
+                title="An Error Occured", #this isnt working and is showing the pyton logo instrad
+                message="Please Enter An IP Adress", 
+                parent=frame
+            )
     # Mac version to limit to 4 requests:     command = ["ping", "localhost", "-n", "4"]
     try:
         global command_textbox
@@ -43,14 +39,11 @@ def do_command(ip, option_selected):
                 command_textbox.insert(tk.END,line)
                 command_textbox.update()
     except BaseException as e:
-            root1 = tk.Tk()
-            root1.wm_geometry("200x200")
-            root1.title("An Error Occured")
-            frame_wrong = tk.Frame(root1)
-            frame_wrong.grid()
-    
-            lbl_wrong = tk.Label(frame_wrong, text="An Error Occured. Please double-check your selected options.\nError caught: " + str(e), font="Times, 26")
-            lbl_wrong.pack()
+            messagebox.showerror(
+                title="An Error Occured", #this isnt working and is showing the pyton logo instrad
+                message="Please Double-Check Your Selected Options./nError Caught: " + str(e), 
+                parent=frame
+            )
 def get_text():
     try:
         ip = ip_entry.get()
@@ -58,14 +51,11 @@ def get_text():
         option_selected = options_listbox.get(option_selected)
         do_command(ip, option_selected)
     except BaseException as e:
-        root1 = tk.Tk()
-        root1.wm_geometry("200x200")
-        root1.title("An Error Occured")
-        frame_wrong = tk.Frame(root1)
-        frame_wrong.grid()
-    
-        lbl_wrong = tk.Label(frame_wrong, text="An Error Occured. Please double-check your selected options.\nError caught: " + str(e), font="Times, 26")
-        lbl_wrong.pack()
+        messagebox.showerror(
+                title="An Error Occured", #this isnt working and is showing the pyton logo instrad
+                message="Please Double-Check Your Selected Options./nError Caught: " + str(e), 
+                parent=frame
+            )
 def mSave():
   filename = asksaveasfilename(defaultextension='.txt',filetypes = (('Text files', '*.txt'),('Python files', '*.py *.pyw'),('All files', '*.*')))
   if filename is None:
@@ -90,6 +80,7 @@ save_output_btn = tk.Button(frame, text="Save Output", command=mSave)
 # info_label = tk.Label(frame, text="")
 for option in options:
     options_listbox.insert(tk.END, option)
+
 # info_label.pack()
 ip_entry.pack()
 execute_btn.pack()

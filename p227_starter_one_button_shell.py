@@ -18,7 +18,7 @@ def do_command(ip, option_selected):
         else:
             messagebox.showerror(
                 title="An Error Occured", #the title doesnt work still ugh
-                message="Please Enter A Calid Command",
+                message="Please Enter A Valid Command",
                 parent=frame
             )
     else:
@@ -69,11 +69,23 @@ root = tk.Tk()
 frame = tk.Frame(root)
 frame.pack()
 
+#owen here, got the (event) from chatgpt
+def on_focus_in(event):
+    if ip_entry.get() == "Enter IP Adress":
+        ip_entry.delete(0, "end")
+        ip_entry.config(foreground="white")
+    
+def on_focus_out(event):
+    if ip_entry.get() == "":
+        ip_entry.insert(0, "Enter IP Adress")
+        ip_entry.config(foreground="grey")
+    
 # set up button to run the do_command function
 execute_btn = tk.Button(frame, text="Execute Operation", command=get_text)
 ip = ""
 options = ['ping', 'nslookup', 'tracert', 'nmap']
-ip_entry = tk.Entry(frame, width=16, textvariable=ip)
+ip_entry = tk.Entry(frame, width=16, textvariable=ip, foreground="grey")
+ip_entry.insert(0, "Enter IP Adress")
 command_textbox = tksc.ScrolledText(frame, height=10, width=50) 
 options_listbox = tk.Listbox(frame, height=4)
 save_output_btn = tk.Button(frame, text="Save Output", command=mSave)
@@ -87,4 +99,7 @@ execute_btn.pack()
 save_output_btn.pack()
 options_listbox.pack()
 command_textbox.pack()
+#owen talking: i got the bind command from chatgpt 
+ip_entry.bind("<FocusIn>", on_focus_in)
+ip_entry.bind("<FocusOut>", on_focus_out)
 root.mainloop()

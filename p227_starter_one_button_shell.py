@@ -66,7 +66,7 @@ def mSave():
   file.close()
 
 root = tk.Tk()
-frame = tk.Frame(root)
+frame = tk.Frame(root, background="#343434")
 frame.pack()
 
 #owen here, got the (event) from chatgpt
@@ -81,14 +81,14 @@ def on_focus_out(event):
         ip_entry.config(foreground="grey")
     
 # set up button to run the do_command function
-execute_btn = tk.Button(frame, text="Execute Operation", command=get_text)
+execute_btn = tk.Button(frame, text="Execute Operation", command=get_text, foreground="#1e1e1e", background="white")
 ip = ""
 options = ['ping', 'nslookup', 'tracert', 'nmap']
-ip_entry = tk.Entry(frame, width=16, textvariable=ip, foreground="grey")
+ip_entry = tk.Entry(frame, width=16, textvariable=ip, foreground="grey", background="#1e1e1e")
 ip_entry.insert(0, "Enter IP Adress")
-command_textbox = tksc.ScrolledText(frame, height=10, width=50) 
-options_listbox = tk.Listbox(frame, height=4)
-save_output_btn = tk.Button(frame, text="Save Output", command=mSave)
+command_textbox = tksc.ScrolledText(frame, height=10, width=50, background="#1e1e1e", foreground="white") 
+options_listbox = tk.Listbox(frame, height=4, background="#1e1e1e", foreground="white")
+save_output_btn = tk.Button(frame, text="Save Output", command=mSave, background="white", foreground="#1e1e1e")
 # info_label = tk.Label(frame, text="")
 for option in options:
     options_listbox.insert(tk.END, option)

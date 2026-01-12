@@ -10,7 +10,7 @@ def do_command(ip, option_selected):
         if option_selected == "nslookup":
             command = ["nslookup", ip]
         elif option_selected == "ping":
-            command = ["ping", ip, "-n", "4"]
+            command = ["ping", ip]
         elif option_selected == "nmap":
             command = ["nmap", ip]
         elif option_selected == "tracert":
@@ -21,6 +21,26 @@ def do_command(ip, option_selected):
                 message="Please Enter A Valid Command",
                 parent=frame
             )
+        if infiniteping.get() == 1 and pingcount.get() != 1:
+            command.append("-t")
+        else:
+            messagebox.showerror(
+                message="Infinite ping selected while specifying amount of pings.",
+                parent=frame
+            )
+        if pingcount.get() == 1 and infiniteping.get() != 1:
+            global pingcountoption
+            count = pingcountoption.get()
+            command.append("-n")
+            command.append(count)
+        else:
+                messagebox.showerror(
+                message="Infinite ping selected while specifying amount of pings.",
+                parent=frame
+            )
+            
+
+            
     else:
         messagebox.showerror(
                 title="An Error Occured", #this isnt working and is showing the pyton logo instrad
@@ -68,7 +88,7 @@ def mSave():
 root = tk.Tk()
 frame = tk.Frame(root, background="#343434")
 frame.pack()
-
+extra_options = False
 #owen here, got the (event) from chatgpt
 def on_focus_in(event):
     if ip_entry.get() == "Enter IP Adress":
@@ -79,7 +99,21 @@ def on_focus_out(event):
     if ip_entry.get() == "":
         ip_entry.insert(0, "Enter IP Adress")
         ip_entry.config(foreground="grey")
-    
+def pingcountfunction():
+    global pingcountoption
+    if pingcount.get() == 1:
+        pingcountoption.pack()
+    else:
+        pingcountoption.pack_forget()
+# def pingsize():
+
+# def pingtimeout():
+
+# def pinghops():
+
+# def pingversion():
+
+
 # set up button to run the do_command function
 execute_btn = tk.Button(frame, text="Execute Operation", command=get_text, foreground="#1e1e1e", background="white")
 ip = ""
@@ -90,6 +124,7 @@ command_textbox = tksc.ScrolledText(frame, height=10, width=50, background="#1e1
 options_listbox = tk.Listbox(frame, height=4, background="#1e1e1e", foreground="white")
 save_output_btn = tk.Button(frame, text="Save Output", command=mSave, background="white", foreground="#1e1e1e")
 # info_label = tk.Label(frame, text="")
+
 for option in options:
     options_listbox.insert(tk.END, option)
 
@@ -99,6 +134,21 @@ execute_btn.pack()
 save_output_btn.pack()
 options_listbox.pack()
 command_textbox.pack()
+pingcountoption = tk.Entry(frame, width = 10)
+infiniteping = tk.IntVar()
+pingcount = tk.IntVar()
+pingsize = tk.IntVar()
+pingtimeout = tk.IntVar()
+pinghops = tk.IntVar()
+pingversion = tk.IntVar()
+check_ping_infinite = tk.Checkbutton(frame, variable=infiniteping, text="-t")
+check_ping_count = tk.Checkbutton(frame, variable=pingcount, command=pingcountfunction, text= "-n")
+check_ping_size = tk.Checkbutton(frame, variable=pingsize, command=pingsize)
+check_ping_timeout = tk.Checkbutton(frame, variable=pingtimeout, command=pingtimeout)
+check_ping_hops = tk.Checkbutton(frame, variable=pinghops, command=pinghops)
+check_ping_version = tk.Checkbutton(frame, variable=pingversion, command=pingversion)
+check_ping_infinite.pack()
+check_ping_count.pack()
 #owen talking: i got the bind command from chatgpt 
 ip_entry.bind("<FocusIn>", on_focus_in)
 ip_entry.bind("<FocusOut>", on_focus_out)

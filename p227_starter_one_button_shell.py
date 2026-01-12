@@ -24,7 +24,7 @@ def do_command(ip, option_selected):
         if infiniteping.get() == 1 and pingcount.get() != 1:
             command.append("-t")
         else:
-            if infiniteping.get ==1:{
+            if infiniteping.get() ==1:{
                 messagebox.showerror(
                 message="Infinite ping selected while specifying amount of pings.",
                 parent=frame
@@ -36,7 +36,7 @@ def do_command(ip, option_selected):
             command.append("-n")
             command.append(count)
         else:
-            if pingcount.get ==1:{
+            if pingcount.get() ==1:{
                 messagebox.showerror(
                 message="Infinite ping selected while specifying amount of pings.",
                 parent=frame
@@ -47,6 +47,11 @@ def do_command(ip, option_selected):
             size = pingsizeoption.get()
             command.append("-l")
             command.append(size)
+        if pingtimeout.get() == 1:
+            global pingtimeoutoption
+            timeout = pingtimeoutoption.get()
+            command.append("-w")
+            command.append(timeout)
 
             
     else:
@@ -119,11 +124,16 @@ def pingsizefunction():
         pingsizeoption.pack()
     else:
         pingsizeoption.pack_forget()
-# def pingtimeout():
+def pingtimeoutfunction():
+    global pingtimeoutoption
+    if pingtimeout.get() == 1:
+        pingtimeoutoption.pack()
+    else:
+        pingtimeoutoption.pack_forget()
 
-# def pinghops():
+# def pinghopsfunction():
 
-# def pingversion():
+# def pingversionfunction():
 
 
 # set up button to run the do_command function
@@ -148,6 +158,10 @@ options_listbox.pack()
 command_textbox.pack()
 pingcountoption = tk.Entry(frame, width = 10)
 pingsizeoption = tk.Entry(frame, width=10)
+pingtimeoutoption = tk.Entry(frame, width=10)
+pinghopsoption = tk.Entry(frame, width=10)
+pingversionoption = tk.Entry(frame, width=10)
+pingversionoption.insert(0, "Enter 4 or 6")
 infiniteping = tk.IntVar()
 pingcount = tk.IntVar()
 pingsize = tk.IntVar()
@@ -157,12 +171,13 @@ pingversion = tk.IntVar()
 check_ping_infinite = tk.Checkbutton(frame, variable=infiniteping, text="-t")
 check_ping_count = tk.Checkbutton(frame, variable=pingcount, command=pingcountfunction, text= "-n")
 check_ping_size = tk.Checkbutton(frame, variable=pingsize, command=pingsizefunction, text="-l")
-#check_ping_timeout = tk.Checkbutton(frame, variable=pingtimeout, command=pingtimeoutfunction)
+check_ping_timeout = tk.Checkbutton(frame, variable=pingtimeout, command=pingtimeoutfunction, text="-w (ms)")
 #check_ping_hops = tk.Checkbutton(frame, variable=pinghops, command=pinghopsfunction)
 #check_ping_version = tk.Checkbutton(frame, variable=pingversion, command=pingversionfunction)
 check_ping_infinite.pack()
 check_ping_count.pack()
 check_ping_size.pack()
+check_ping_timeout.pack()
 #owen talking: i got the bind command from chatgpt 
 ip_entry.bind("<FocusIn>", on_focus_in)
 ip_entry.bind("<FocusOut>", on_focus_out)

@@ -11,6 +11,37 @@ def do_command(ip, option_selected):
             command = ["nslookup", ip]
         elif option_selected == "ping":
             command = ["ping", ip]
+            if infiniteping.get() == 1 and pingcount.get() != 1:
+                command.append("-t")
+            else:
+                if infiniteping.get() ==1:{
+                    messagebox.showerror(
+                    message="Infinite ping selected while specifying amount of pings.",
+                    parent=frame
+                )
+            }
+            if pingcount.get() == 1 and infiniteping.get() != 1:
+                global pingcountoption
+                count = pingcountoption.get()
+                command.append("-n")
+                command.append(count)
+            else:
+                if pingcount.get() ==1:{
+                    messagebox.showerror(
+                    message="Infinite ping selected while specifying amount of pings.",
+                    parent=frame
+                )
+                }
+            if pingsize.get() == 1:
+                global pingsizeoption
+                size = pingsizeoption.get()
+                command.append("-l")
+                command.append(size)
+            if pingtimeout.get() == 1:
+                global pingtimeoutoption
+                timeout = pingtimeoutoption.get()
+                command.append("-w")
+                command.append(timeout)
         elif option_selected == "nmap":
             command = ["nmap", ip]
         elif option_selected == "tracert":
@@ -21,38 +52,7 @@ def do_command(ip, option_selected):
                 message="Please Enter A Valid Command",
                 parent=frame
             )
-        if infiniteping.get() == 1 and pingcount.get() != 1:
-            command.append("-t")
-        else:
-            if infiniteping.get() ==1:{
-                messagebox.showerror(
-                message="Infinite ping selected while specifying amount of pings.",
-                parent=frame
-            )
-            }
-        if pingcount.get() == 1 and infiniteping.get() != 1:
-            global pingcountoption
-            count = pingcountoption.get()
-            command.append("-n")
-            command.append(count)
-        else:
-            if pingcount.get() ==1:{
-                messagebox.showerror(
-                message="Infinite ping selected while specifying amount of pings.",
-                parent=frame
-            )
-            }
-        if pingsize.get() == 1:
-            global pingsizeoption
-            size = pingsizeoption.get()
-            command.append("-l")
-            command.append(size)
-        if pingtimeout.get() == 1:
-            global pingtimeoutoption
-            timeout = pingtimeoutoption.get()
-            command.append("-w")
-            command.append(timeout)
-
+        
             
     else:
         messagebox.showerror(

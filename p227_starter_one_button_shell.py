@@ -24,21 +24,29 @@ def do_command(ip, option_selected):
         if infiniteping.get() == 1 and pingcount.get() != 1:
             command.append("-t")
         else:
-            messagebox.showerror(
+            if infiniteping.get ==1:{
+                messagebox.showerror(
                 message="Infinite ping selected while specifying amount of pings.",
                 parent=frame
             )
+            }
         if pingcount.get() == 1 and infiniteping.get() != 1:
             global pingcountoption
             count = pingcountoption.get()
             command.append("-n")
             command.append(count)
         else:
+            if pingcount.get ==1:{
                 messagebox.showerror(
                 message="Infinite ping selected while specifying amount of pings.",
                 parent=frame
             )
-            
+            }
+        if pingsize.get() == 1:
+            global pingsizeoption
+            size = pingsizeoption.get()
+            command.append("-l")
+            command.append(size)
 
             
     else:
@@ -105,8 +113,12 @@ def pingcountfunction():
         pingcountoption.pack()
     else:
         pingcountoption.pack_forget()
-# def pingsize():
-
+def pingsizefunction():
+    global pingsizeoption
+    if pingsize.get() == 1:
+        pingsizeoption.pack()
+    else:
+        pingsizeoption.pack_forget()
 # def pingtimeout():
 
 # def pinghops():
@@ -135,6 +147,7 @@ save_output_btn.pack()
 options_listbox.pack()
 command_textbox.pack()
 pingcountoption = tk.Entry(frame, width = 10)
+pingsizeoption = tk.Entry(frame, width=10)
 infiniteping = tk.IntVar()
 pingcount = tk.IntVar()
 pingsize = tk.IntVar()
@@ -143,12 +156,13 @@ pinghops = tk.IntVar()
 pingversion = tk.IntVar()
 check_ping_infinite = tk.Checkbutton(frame, variable=infiniteping, text="-t")
 check_ping_count = tk.Checkbutton(frame, variable=pingcount, command=pingcountfunction, text= "-n")
-check_ping_size = tk.Checkbutton(frame, variable=pingsize, command=pingsize)
-check_ping_timeout = tk.Checkbutton(frame, variable=pingtimeout, command=pingtimeout)
-check_ping_hops = tk.Checkbutton(frame, variable=pinghops, command=pinghops)
-check_ping_version = tk.Checkbutton(frame, variable=pingversion, command=pingversion)
+check_ping_size = tk.Checkbutton(frame, variable=pingsize, command=pingsizefunction, text="-l")
+#check_ping_timeout = tk.Checkbutton(frame, variable=pingtimeout, command=pingtimeoutfunction)
+#check_ping_hops = tk.Checkbutton(frame, variable=pinghops, command=pinghopsfunction)
+#check_ping_version = tk.Checkbutton(frame, variable=pingversion, command=pingversionfunction)
 check_ping_infinite.pack()
 check_ping_count.pack()
+check_ping_size.pack()
 #owen talking: i got the bind command from chatgpt 
 ip_entry.bind("<FocusIn>", on_focus_in)
 ip_entry.bind("<FocusOut>", on_focus_out)

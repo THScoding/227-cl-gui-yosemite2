@@ -49,7 +49,13 @@ def do_command(ip, option_selected):
                 hops = pinghopsoption.get()
                 command.append("-i")
                 command.append(hops)
-
+            if pingversion.get() == 1:
+                global pingversionoptionactual
+                selected_pingversionoption = pingversionoptionactual.get()
+                if selected_pingversionoption == 0:
+                    command.append("-4")
+                else:
+                    command.append("-6")
         elif option_selected == "nmap":
             command = ["nmap", ip]
         elif option_selected == "tracert":
@@ -146,8 +152,15 @@ def pinghopsfunction():
     else:
         pinghopsoption.pack_forget()
 
-# def pingversionfunction():
-
+def pingversionfunction():
+    global pingversionoption
+    if pingversion.get() == 1:
+        pingversionoption.pack()
+        pingversionoption2.pack()
+    else:
+        pingversionoption2.pack_forget()
+        pingversionoption.pack_forget()
+            
 
 # set up button to run the do_command function
 execute_btn = tk.Button(frame, text="Execute Operation", command=get_text, foreground="#1e1e1e", background="white")
@@ -159,11 +172,11 @@ command_textbox = tksc.ScrolledText(frame, height=10, width=50, background="#1e1
 options_listbox = tk.Listbox(frame, height=4, background="#1e1e1e", foreground="white")
 save_output_btn = tk.Button(frame, text="Save Output", command=mSave, background="white", foreground="#1e1e1e")
 # info_label = tk.Label(frame, text="")
+# info_label.pack()
 
 for option in options:
     options_listbox.insert(tk.END, option)
 
-# info_label.pack()
 ip_entry.pack()
 execute_btn.pack()
 save_output_btn.pack()
@@ -173,25 +186,28 @@ pingcountoption = tk.Entry(frame, width = 10)
 pingsizeoption = tk.Entry(frame, width=10)
 pingtimeoutoption = tk.Entry(frame, width=10)
 pinghopsoption = tk.Entry(frame, width=10)
-pingversionoption = tk.Entry(frame, width=10)
-pingversionoption.insert(0, "Enter 4 or 6")
+pingversionoptionactual = tk.IntVar()
+pingversionoption = tk.Radiobutton(frame, text="IPv4", variable=pingversionoptionactual, value=0)
+pingversionoption2 = tk.Radiobutton(frame, text="IPv6", variable=pingversionoptionactual, value=1)
 infiniteping = tk.IntVar()
 pingcount = tk.IntVar()
 pingsize = tk.IntVar()
 pingtimeout = tk.IntVar()
 pinghops = tk.IntVar()
 pingversion = tk.IntVar()
+
 check_ping_infinite = tk.Checkbutton(frame, variable=infiniteping, text="-t")
 check_ping_count = tk.Checkbutton(frame, variable=pingcount, command=pingcountfunction, text= "-n")
 check_ping_size = tk.Checkbutton(frame, variable=pingsize, command=pingsizefunction, text="-l")
 check_ping_timeout = tk.Checkbutton(frame, variable=pingtimeout, command=pingtimeoutfunction, text="-w (ms)")
 check_ping_hops = tk.Checkbutton(frame, variable=pinghops, command=pinghopsfunction, text="-i")
-#check_ping_version = tk.Checkbutton(frame, variable=pingversion, command=pingversionfunction)
+check_ping_version = tk.Checkbutton(frame, variable=pingversion, command=pingversionfunction, text="-4 or -6")
 check_ping_infinite.pack()
 check_ping_count.pack()
 check_ping_size.pack()
 check_ping_timeout.pack()
 check_ping_hops.pack()
+check_ping_version.pack()
 #owen talking: i got the bind command from chatgpt 
 ip_entry.bind("<FocusIn>", on_focus_in)
 ip_entry.bind("<FocusOut>", on_focus_out)

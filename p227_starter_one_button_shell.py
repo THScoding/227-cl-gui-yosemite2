@@ -4,6 +4,7 @@ import tkinter.scrolledtext as tksc
 from tkinter import filedialog
 from tkinter.filedialog import asksaveasfilename
 from tkinter import messagebox
+import threading
 
 def do_command(ip, option_selected):
     if ip != "":
@@ -66,14 +67,14 @@ def do_command(ip, option_selected):
                 message="Please Enter A Valid Command",
                 parent=frame
             )
-        
-            
+                    
     else:
         messagebox.showerror(
                 title="An Error Occured", #this isnt working and is showing the pyton logo instrad
                 message="Please Enter An IP Adress", 
                 parent=frame
             )
+        
     # Mac version to limit to 4 requests:     command = ["ping", "localhost", "-n", "4"]
     try:
         global command_textbox
@@ -91,6 +92,7 @@ def do_command(ip, option_selected):
                 message="Please Double-Check Your Selected Options./nError Caught: " + str(e), 
                 parent=frame
             )
+            
 def get_text():
     try:
         ip = ip_entry.get()
@@ -114,7 +116,7 @@ def mSave():
 
 root = tk.Tk()
 frame = tk.Frame(root, background="#343434")
-frame.pack()
+frame.pack(fill="both", expand=True)
 extra_options = False
 #owen here, got the (event) from chatgpt
 def on_focus_in(event):
@@ -177,18 +179,13 @@ save_output_btn = tk.Button(frame, text="Save Output", command=mSave, background
 for option in options:
     options_listbox.insert(tk.END, option)
 
-ip_entry.pack()
-execute_btn.pack()
-save_output_btn.pack()
-options_listbox.pack()
-command_textbox.pack()
+#Variable Barf
 pingcountoption = tk.Entry(frame, width = 10)
 pingsizeoption = tk.Entry(frame, width=10)
 pingtimeoutoption = tk.Entry(frame, width=10)
 pinghopsoption = tk.Entry(frame, width=10)
 pingversionoptionactual = tk.IntVar()
-pingversionoption = tk.Radiobutton(frame, text="IPv4", variable=pingversionoptionactual, value=0)
-pingversionoption2 = tk.Radiobutton(frame, text="IPv6", variable=pingversionoptionactual, value=1)
+
 infiniteping = tk.IntVar()
 pingcount = tk.IntVar()
 pingsize = tk.IntVar()
@@ -196,18 +193,30 @@ pingtimeout = tk.IntVar()
 pinghops = tk.IntVar()
 pingversion = tk.IntVar()
 
+pingversionoption = tk.Radiobutton(frame, text="IPv4", variable=pingversionoptionactual, value=0)
+pingversionoption2 = tk.Radiobutton(frame, text="IPv6", variable=pingversionoptionactual, value=1)
 check_ping_infinite = tk.Checkbutton(frame, variable=infiniteping, text="-t")
 check_ping_count = tk.Checkbutton(frame, variable=pingcount, command=pingcountfunction, text= "-n")
 check_ping_size = tk.Checkbutton(frame, variable=pingsize, command=pingsizefunction, text="-l")
 check_ping_timeout = tk.Checkbutton(frame, variable=pingtimeout, command=pingtimeoutfunction, text="-w (ms)")
 check_ping_hops = tk.Checkbutton(frame, variable=pinghops, command=pinghopsfunction, text="-i")
 check_ping_version = tk.Checkbutton(frame, variable=pingversion, command=pingversionfunction, text="-4 or -6")
+
+
+#Function Barf
+ip_entry.pack()
+execute_btn.pack()
+save_output_btn.pack()
+options_listbox.pack()
+command_textbox.pack()
+
 check_ping_infinite.pack()
 check_ping_count.pack()
 check_ping_size.pack()
 check_ping_timeout.pack()
 check_ping_hops.pack()
 check_ping_version.pack()
+
 #owen talking: i got the bind command from chatgpt 
 ip_entry.bind("<FocusIn>", on_focus_in)
 ip_entry.bind("<FocusOut>", on_focus_out)

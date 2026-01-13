@@ -210,14 +210,14 @@ pingtimeout = tk.IntVar()
 pinghops = tk.IntVar()
 pingversion = tk.IntVar()
 
-pingversionoption = tk.Radiobutton(frame, text="IPv4", variable=pingversionoptionactual, value=0, bg="#1e1e1e", fg="white")
-pingversionoption2 = tk.Radiobutton(frame, text="IPv6", variable=pingversionoptionactual, value=1, bg="#1e1e1e", fg="white")
-check_ping_infinite = tk.Checkbutton(frame, variable=infiniteping, text="-t", bg="#1e1e1e", fg="white")
-check_ping_count = tk.Checkbutton(frame, variable=pingcount, command=pingcountfunction, text= "-n", bg="#1e1e1e", fg="white")
-check_ping_size = tk.Checkbutton(frame, variable=pingsize, command=pingsizefunction, text="-l", bg="#1e1e1e", fg="white")
-check_ping_timeout = tk.Checkbutton(frame, variable=pingtimeout, command=pingtimeoutfunction, text="-w (ms)", bg="#1e1e1e", fg="white")
-check_ping_hops = tk.Checkbutton(frame, variable=pinghops, command=pinghopsfunction, text="-i", bg="#1e1e1e", fg="white")
-check_ping_version = tk.Checkbutton(frame, variable=pingversion, command=pingversionfunction, text="-4 or -6", bg="#1e1e1e", fg="white")
+pingversionoption = tk.Radiobutton(frame, text="IPv4", variable=pingversionoptionactual, value=0, bg="#1e1e1e", fg="black")
+pingversionoption2 = tk.Radiobutton(frame, text="IPv6", variable=pingversionoptionactual, value=1, bg="#1e1e1e", fg="black")
+check_ping_infinite = tk.Checkbutton(frame, variable=infiniteping, text="-t", bg="#1e1e1e", fg="black")
+check_ping_count = tk.Checkbutton(frame, variable=pingcount, command=pingcountfunction, text= "-n", bg="#1e1e1e", fg="black")
+check_ping_size = tk.Checkbutton(frame, variable=pingsize, command=pingsizefunction, text="-l", bg="#1e1e1e", fg="black")
+check_ping_timeout = tk.Checkbutton(frame, variable=pingtimeout, command=pingtimeoutfunction, text="-w (ms)", bg="#1e1e1e", fg="black")
+check_ping_hops = tk.Checkbutton(frame, variable=pinghops, command=pinghopsfunction, text="-i", bg="#1e1e1e", fg="black")
+check_ping_version = tk.Checkbutton(frame, variable=pingversion, command=pingversionfunction, text="-4 or -6", bg="#1e1e1e", fg="black")
 
 
 #Function Barf

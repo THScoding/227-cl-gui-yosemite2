@@ -19,44 +19,49 @@ def do_command(ip, option_selected):
                     messagebox.showerror(
                     message="Infinite ping selected while specifying amount of pings.",
                     parent=frame
-                )
-                
+                    )
             }
             if pingcount.get() == 1 and infiniteping.get() != 1:
                 global pingcountoption
                 count = pingcountoption.get()
                 command.append("-n")
                 command.append(count)
+                
             else:
                 if pingcount.get() ==1:{
                     messagebox.showerror(
                     message="Infinite ping selected while specifying amount of pings.",
                     parent=frame
-                )
-                
+                    )
                 }
             if pingsize.get() == 1:
                 global pingsizeoption
                 size = pingsizeoption.get()
                 command.append("-l")
                 command.append(size)
+                
             if pingtimeout.get() == 1:
                 global pingtimeoutoption
                 timeout = pingtimeoutoption.get()
                 command.append("-w")
                 command.append(timeout)
+                
             if pinghops.get() == 1:
                 global pinghopsoption
                 hops = pinghopsoption.get()
                 command.append("-i")
                 command.append(hops)
+                
             if pingversion.get() == 1:
                 global pingversionoptionactual
                 selected_pingversionoption = pingversionoptionactual.get()
+            
                 if selected_pingversionoption == 0:
                     command.append("-4")
+                
                 else:
                     command.append("-6")
+                    
         elif option_selected == "nmap":
             command = ["nmap", ip]
         elif option_selected == "tracert":
@@ -73,7 +78,7 @@ def do_command(ip, option_selected):
                 title="An Error Occured", #this isnt working and is showing the pyton logo instrad
                 message="Please Enter An IP Adress", 
                 parent=frame
-            )
+        )
         
     # Mac version to limit to 4 requests:     command = ["ping", "localhost", "-n", "4"]
     try:
@@ -104,7 +109,9 @@ def get_text():
                 title="An Error Occured", #this isnt working and is showing the pyton logo instrad
                 message="Please Double-Check Your Selected Options./nError Caught: " + str(e), 
                 parent=frame
-            )
+        )
+        
+# File saving function      
 def mSave():
   filename = asksaveasfilename(defaultextension='.txt',filetypes = (('Text files', '*.txt'),('Python files', '*.py *.pyw'),('All files', '*.*')))
   if filename is None:
@@ -118,7 +125,9 @@ root = tk.Tk()
 frame = tk.Frame(root, background="#343434")
 frame.pack(fill="both", expand=True)
 extra_options = False
+
 #owen here, got the (event) from chatgpt
+#placeholder text for entry
 def on_focus_in(event):
     if ip_entry.get() == "Enter IP Adress":
         ip_entry.delete(0, "end")
@@ -128,18 +137,22 @@ def on_focus_out(event):
     if ip_entry.get() == "":
         ip_entry.insert(0, "Enter IP Adress")
         ip_entry.config(foreground="grey")
+        
+#extra options buttons
 def pingcountfunction():
     global pingcountoption
     if pingcount.get() == 1:
         pingcountoption.pack()
     else:
         pingcountoption.pack_forget()
+        
 def pingsizefunction():
     global pingsizeoption
     if pingsize.get() == 1:
         pingsizeoption.pack()
     else:
         pingsizeoption.pack_forget()
+        
 def pingtimeoutfunction():
     global pingtimeoutoption
     if pingtimeout.get() == 1:
@@ -180,10 +193,14 @@ for option in options:
     options_listbox.insert(tk.END, option)
 
 #Variable Barf
-pingcountoption = tk.Entry(frame, width = 10)
-pingsizeoption = tk.Entry(frame, width=10)
-pingtimeoutoption = tk.Entry(frame, width=10)
-pinghopsoption = tk.Entry(frame, width=10)
+# -n ⤵️
+pingcountoption = tk.Entry(frame, width = 10, bg="#1e1e1e", fg="white")
+# -l ⤵️
+pingsizeoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
+# -w(ms) ⤵️
+pingtimeoutoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
+# -i ⤵️
+pinghopsoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
 pingversionoptionactual = tk.IntVar()
 
 infiniteping = tk.IntVar()
@@ -193,14 +210,14 @@ pingtimeout = tk.IntVar()
 pinghops = tk.IntVar()
 pingversion = tk.IntVar()
 
-pingversionoption = tk.Radiobutton(frame, text="IPv4", variable=pingversionoptionactual, value=0)
-pingversionoption2 = tk.Radiobutton(frame, text="IPv6", variable=pingversionoptionactual, value=1)
-check_ping_infinite = tk.Checkbutton(frame, variable=infiniteping, text="-t")
-check_ping_count = tk.Checkbutton(frame, variable=pingcount, command=pingcountfunction, text= "-n")
-check_ping_size = tk.Checkbutton(frame, variable=pingsize, command=pingsizefunction, text="-l")
-check_ping_timeout = tk.Checkbutton(frame, variable=pingtimeout, command=pingtimeoutfunction, text="-w (ms)")
-check_ping_hops = tk.Checkbutton(frame, variable=pinghops, command=pinghopsfunction, text="-i")
-check_ping_version = tk.Checkbutton(frame, variable=pingversion, command=pingversionfunction, text="-4 or -6")
+pingversionoption = tk.Radiobutton(frame, text="IPv4", variable=pingversionoptionactual, value=0, bg="#1e1e1e", fg="white")
+pingversionoption2 = tk.Radiobutton(frame, text="IPv6", variable=pingversionoptionactual, value=1, bg="#1e1e1e", fg="white")
+check_ping_infinite = tk.Checkbutton(frame, variable=infiniteping, text="-t", bg="#1e1e1e", fg="white")
+check_ping_count = tk.Checkbutton(frame, variable=pingcount, command=pingcountfunction, text= "-n", bg="#1e1e1e", fg="white")
+check_ping_size = tk.Checkbutton(frame, variable=pingsize, command=pingsizefunction, text="-l", bg="#1e1e1e", fg="white")
+check_ping_timeout = tk.Checkbutton(frame, variable=pingtimeout, command=pingtimeoutfunction, text="-w (ms)", bg="#1e1e1e", fg="white")
+check_ping_hops = tk.Checkbutton(frame, variable=pinghops, command=pinghopsfunction, text="-i", bg="#1e1e1e", fg="white")
+check_ping_version = tk.Checkbutton(frame, variable=pingversion, command=pingversionfunction, text="-4 or -6", bg="#1e1e1e", fg="white")
 
 
 #Function Barf

@@ -159,29 +159,6 @@ def on_select(event):
         show_ping_options()
     else:
         hide_ping_options()      
-        
-''' def show_ping_options():
-    check_ping_infinite.pack(side=tk.LEFT, padx=4)
-    check_ping_count.pack(side=tk.LEFT, padx=4)
-    check_ping_size.pack(side=tk.LEFT, padx=4)
-    check_ping_timeout.pack(side=tk.LEFT, padx=4)
-    check_ping_hops.pack(side=tk.LEFT, padx=4)
-    check_ping_version.pack(side=tk.LEFT, padx=4)
-
-    def hide_ping_options():
-    check_ping_infinite.pack_forget()
-    check_ping_count.pack_forget()
-    check_ping_size.pack_forget()
-    check_ping_timeout.pack_forget()
-    check_ping_hops.pack_forget()
-    check_ping_version.pack_forget()
-
-    pingcountoption.pack_forget()
-    pingsizeoption.pack_forget()
-    pingtimeoutoption.pack_forget()
-    pinghopsoption.pack_forget()
-    pingversionoption.pack_forget()
-    pingversionoption2.pack_forget()'''
     
 def show_ping_options():
     ping_options_frame.pack()
@@ -191,17 +168,27 @@ def hide_ping_options():
 
 #owen here, got the (event) from chatgpt
 #placeholder text for entry
-def on_focus_in(event):
+def on_focus_in_ip_entry(event):
     if ip_entry.get() == "Enter IP Adress":
         ip_entry.delete(0, "end")
         ip_entry.config(foreground="white")
     
-def on_focus_out(event):
+def on_focus_out_ip_entry(event):
     if ip_entry.get() == "":
         ip_entry.insert(0, "Enter IP Adress")
         ip_entry.config(foreground="grey")
         
-#ping functions
+def on_focus_in_ping_count(event):
+    if pingcountoption.get() == "# of Pings":
+        pingcountoption.delete(0, "end")
+        pingcountoption.config(foreground="white")
+    
+def on_focus_out_ping_count(event):
+    if pingcountoption.get() == "":
+        pingcountoption.insert(0, "# of Pings")
+        pingcountoption.config(foreground="grey")
+        
+#ping functions  ----------------------------------------------------------
 def pingcountfunction():
     if pingcount.get() == 1:
         pingcountoption.pack()
@@ -228,7 +215,7 @@ def pinghopsfunction():
         pinghopsoption.pack()
     else:
         pinghopsoption.pack_forget()
-
+        
 def pingversionfunction():
     global pingversionoption
     global pingversionoption2
@@ -239,19 +226,21 @@ def pingversionfunction():
         pingversionoption2.pack_forget()
         pingversionoption.pack_forget()
         
-#trace functions
+#trace functions ----------------------------------------------------------
 def tracemaxhopsfunction():
     global tracemaxhopsoption
     if tracemaxhops.get() == 1:
         tracemaxhopsoption.pack()
     else:
         tracemaxhopsoption.pack_forget()
+        
 def tracetimeoutfunction():
     global tracetimeoutoption
     if tracetimeout.get() == 1:
         tracetimeoutoption.pack()
     else:
         tracetimeoutoption.pack_forget()
+        
 def traceversionfunction():
     global traceversionoption
     global traceversionoption2
@@ -261,6 +250,7 @@ def traceversionfunction():
     else:
         traceversionoption.pack_forget()
         traceversionoption2.pack_forget()
+        
 #stuff for the appearing listbox thign
 pingcountoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")     
 
@@ -278,10 +268,9 @@ save_output_btn = tk.Button(frame, text="Save Output", command=mSave, background
 
 for option in options:
     options_listbox.insert(tk.END, option)
-    
 ping_options_frame = tk.Frame(frame, bg="#343434")
 
-#Variable Barf
+#Variable Barf  -----------------------------------------------------------
 pingcountoption = tk.Entry(frame, width = 10, bg="#1e1e1e", fg="white")
 pingsizeoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
 pingtimeoutoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
@@ -290,8 +279,7 @@ pinghopsoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
 tracemaxhopsoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
 tracetimeoutoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
 
-
-#ping stuff
+#ping stuff ---------------------------------------------------------------
 pingversionoptionactual = tk.IntVar()
 infiniteping = tk.IntVar()
 pingcount = tk.IntVar()
@@ -316,7 +304,7 @@ check_ping_timeout.pack(side=tk.LEFT, padx=4)
 check_ping_hops.pack(side=tk.LEFT, padx=4)
 check_ping_version.pack(side=tk.LEFT, padx=4)
 
-#trace stuff
+#trace stuff --------------------------------------------------------------
 tracenoresolve = tk.IntVar()
 tracemaxhops = tk.IntVar()
 tracetimeout = tk.IntVar()
@@ -330,6 +318,7 @@ check_trace_version = tk.Checkbutton(frame, variable=traceversion, command=trace
 traceversionoption = tk.Radiobutton(frame, text="IPv4", variable=traceversionoptionactual, value=0)
 traceversionoption2 = tk.Radiobutton(frame, text="IPv6", variable=traceversionoptionactual, value=1)
 
+#remove these
 check_trace_max_hops.pack()
 check_trace_no_hostnames.pack()
 check_trace_timeout.pack()
@@ -348,7 +337,14 @@ show_ping_options()
 hide_ping_options()
 
 #owen talking: i got the bind command from chatgpt 
-ip_entry.bind("<FocusIn>", on_focus_in)
-ip_entry.bind("<FocusOut>", on_focus_out)
+ip_entry.bind("<FocusIn>", on_focus_in_ip_entry)
+ip_entry.bind("<FocusOut>", on_focus_out_ip_entry)
+pingcountoption.bind("<FocusIn>", on_focus_in_ping_count)
+pingcountoption.bind("<FocusOut>", on_focus_out_ping_count)
+
+
+
+
+
 options_listbox.bind("<<ListboxSelect>>", on_select)
 root.mainloop()

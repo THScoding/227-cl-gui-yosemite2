@@ -202,7 +202,7 @@ def on_focus_out(event):
         ip_entry.insert(0, "Enter IP Adress")
         ip_entry.config(foreground="grey")
         
-#extra options buttons
+#ping functions
 def pingcountfunction():
     if pingcount.get() == 1:
         pingcountoption.pack()
@@ -239,7 +239,8 @@ def pingversionfunction():
     else:
         pingversionoption2.pack_forget()
         pingversionoption.pack_forget()
-
+        
+#trace functions
 def tracemaxhopsfunction():
     global tracemaxhopsoption
     if tracemaxhops.get() == 1:
@@ -282,17 +283,16 @@ for option in options:
 ping_options_frame = tk.Frame(frame, bg="#343434")
 
 #Variable Barf
-# -n ⤵️
 pingcountoption = tk.Entry(frame, width = 10, bg="#1e1e1e", fg="white")
-# -l ⤵️
 pingsizeoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
 pingtimeoutoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
 pinghopsoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
 
 tracemaxhopsoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
-
 tracetimeoutoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
 
+
+#ping stuff
 pingversionoptionactual = tk.IntVar()
 infiniteping = tk.IntVar()
 pingcount = tk.IntVar()
@@ -300,15 +300,10 @@ pingsize = tk.IntVar()
 pingtimeout = tk.IntVar()
 pinghops = tk.IntVar()
 pingversion = tk.IntVar()
-tracenoresolve = tk.IntVar()
-tracemaxhops = tk.IntVar()
-tracetimeout = tk.IntVar()
-traceversion = tk.IntVar()
-traceversionoptionactual = tk.IntVar()
 
 pingversionoption = tk.Radiobutton(frame, text="IPv4", variable=pingversionoptionactual, value=0)
 pingversionoption2 = tk.Radiobutton(frame, text="IPv6", variable=pingversionoptionactual, value=1)
-check_ping_infinite = tk.Checkbutton(ping_options_frame, text="-t", variable=infiniteping, bg="#343434", fg="white")
+check_ping_infinite = tk.Checkbutton(ping_options_frame, variable=infiniteping, text="-t")
 check_ping_count = tk.Checkbutton(ping_options_frame, variable=pingcount, command=pingcountfunction, text= "-n")
 check_ping_size = tk.Checkbutton(ping_options_frame, variable=pingsize, command=pingsizefunction, text="-l")
 check_ping_timeout = tk.Checkbutton(ping_options_frame, variable=pingtimeout, command=pingtimeoutfunction, text="-w (ms)")
@@ -322,6 +317,13 @@ check_ping_timeout.pack(side=tk.LEFT, padx=4)
 check_ping_hops.pack(side=tk.LEFT, padx=4)
 check_ping_version.pack(side=tk.LEFT, padx=4)
 
+#trace stuff
+tracenoresolve = tk.IntVar()
+tracemaxhops = tk.IntVar()
+tracetimeout = tk.IntVar()
+traceversion = tk.IntVar()
+traceversionoptionactual = tk.IntVar()
+
 check_trace_no_hostnames = tk.Checkbutton(frame, variable=tracenoresolve, text="-d")
 check_trace_max_hops = tk.Checkbutton(frame, variable=tracemaxhops, command=tracemaxhopsfunction, text="-h")
 check_trace_timeout = tk.Checkbutton(frame, variable=tracetimeout, command=tracetimeoutfunction, text="-w (ms)")
@@ -333,6 +335,7 @@ check_trace_max_hops.pack()
 check_trace_no_hostnames.pack()
 check_trace_timeout.pack()
 check_trace_version.pack()
+
 #Function Barf
 ip_entry.pack()
 execute_btn.pack()

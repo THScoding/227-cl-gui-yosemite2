@@ -65,7 +65,28 @@ def do_command(ip, option_selected):
         elif option_selected == "nmap":
             command = ["nmap", ip]
         elif option_selected == "tracert":
-            command = ["tracert", ip]
+            command = ["tracert"]
+            if traceversion.get() == 1:
+                global traceversionoptionactual
+                selected_traceversionoption = traceversionoptionactual.get()
+
+                if selected_traceversionoption == 0:
+                    command.append("-4")
+                else:
+                    command.append("-6")
+            if tracetimeout.get() == 1:
+                global tracetimeoutoption
+                timeout = tracetimeoutoption.get()
+                command.append("-w")
+                command.append(timeout)
+            if tracemaxhops.get() == 1:
+                global tracemaxhopsoption
+                hops = tracemaxhopsoption.get()
+                command.append("-h")
+                command.append(hops)
+            if tracenoresolve.get() == 1:
+                command.append("-d")
+            command.append(ip)
         else:
             messagebox.showerror(
                 title="An Error Occured", #the title doesnt work still ugh
@@ -205,13 +226,35 @@ def pinghopsfunction():
 
 def pingversionfunction():
     global pingversionoption
+    global pingversionoption2
     if pingversion.get() == 1:
         pingversionoption.pack()
         pingversionoption2.pack()
     else:
         pingversionoption2.pack_forget()
         pingversionoption.pack_forget()
-        
+
+def tracemaxhopsfunction():
+    global tracemaxhopsoption
+    if tracemaxhops.get() == 1:
+        tracemaxhopsoption.pack()
+    else:
+        tracemaxhopsoption.pack_forget()
+def tracetimeoutfunction():
+    global tracetimeoutoption
+    if tracetimeout.get() == 1:
+        tracetimeoutoption.pack()
+    else:
+        tracetimeoutoption.pack_forget()
+def traceversionfunction():
+    global traceversionoption
+    global traceversionoption2
+    if traceversion.get() == 1:
+        traceversionoption.pack()
+        traceversionoption2.pack()
+    else:
+        traceversionoption.pack_forget()
+        traceversionoption2.pack_forget()
 #stuff for the appearing listbox thign
 pingcountoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")     
 
@@ -232,21 +275,30 @@ for option in options:
 
 #Variable Barf
 # -n ⤵️
-# pingcountoption = tk.Entry(frame, width = 10, bg="#1e1e1e", fg="white")
+pingcountoption = tk.Entry(frame, width = 10, bg="#1e1e1e", fg="white")
 # -l ⤵️
 pingsizeoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
 # -w(ms) ⤵️
 pingtimeoutoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
 # -i ⤵️
 pinghopsoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
-pingversionoptionactual = tk.IntVar()
 
+tracemaxhopsoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
+
+tracetimeoutoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
+
+pingversionoptionactual = tk.IntVar()
 infiniteping = tk.IntVar()
 pingcount = tk.IntVar()
 pingsize = tk.IntVar()
 pingtimeout = tk.IntVar()
 pinghops = tk.IntVar()
 pingversion = tk.IntVar()
+tracenoresolve = tk.IntVar()
+tracemaxhops = tk.IntVar()
+tracetimeout = tk.IntVar()
+traceversion = tk.IntVar()
+traceversionoptionactual = tk.IntVar()
 
 pingversionoption = tk.Radiobutton(frame, text="IPv4", variable=pingversionoptionactual, value=0)
 pingversionoption2 = tk.Radiobutton(frame, text="IPv6", variable=pingversionoptionactual, value=1)
@@ -257,6 +309,17 @@ check_ping_timeout = tk.Checkbutton(frame, variable=pingtimeout, command=pingtim
 check_ping_hops = tk.Checkbutton(frame, variable=pinghops, command=pinghopsfunction, text="-i")
 check_ping_version = tk.Checkbutton(frame, variable=pingversion, command=pingversionfunction, text="-4 or -6")
 
+check_trace_no_hostnames = tk.Checkbutton(frame, variable=tracenoresolve, text="-d")
+check_trace_max_hops = tk.Checkbutton(frame, variable=tracemaxhops, command=tracemaxhopsfunction, text="-h")
+check_trace_timeout = tk.Checkbutton(frame, variable=tracetimeout, command=tracetimeoutfunction, text="-w (ms)")
+check_trace_version = tk.Checkbutton(frame, variable=traceversion, command=traceversionfunction, text="-4 or -6")
+traceversionoption = tk.Radiobutton(frame, text="IPv4", variable=traceversionoptionactual, value=0)
+traceversionoption2 = tk.Radiobutton(frame, text="IPv6", variable=traceversionoptionactual, value=1)
+
+check_trace_max_hops.pack()
+check_trace_no_hostnames.pack()
+check_trace_timeout.pack()
+check_trace_version.pack()
 #Function Barf
 ip_entry.pack()
 execute_btn.pack()

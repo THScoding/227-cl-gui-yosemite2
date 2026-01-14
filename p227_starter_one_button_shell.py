@@ -15,12 +15,12 @@ def do_command(ip, option_selected):
             if infiniteping.get() == 1 and pingcount.get() != 1:
                 command.append("-t")
             else:
-                if infiniteping.get() ==1:{
+                if infiniteping.get() ==1:
                     messagebox.showerror(
-                    message="Infinite ping selected while specifying amount of pings.",
-                    parent=frame
+                        message="Infinite ping selected while specifying amount of pings.",
+                        parent=frame
                     )
-            }
+                    
             if pingcount.get() == 1 and infiniteping.get() != 1:
                 global pingcountoption
                 count = pingcountoption.get()
@@ -126,6 +126,43 @@ frame = tk.Frame(root, background="#343434")
 frame.pack(fill="both", expand=True)
 extra_options = False
 
+#owen here again, a lot of this is gemini but i made sure to spend time learning what it all did, 
+# to whom it may concern: im more than happy explaining it in class.
+def on_select(event):
+    selection = event.widget.curselection()
+    if not selection:
+        return
+
+    value = event.widget.get(selection[0])
+
+    if value == "ping":
+        show_ping_options()
+    else:
+        hide_ping_options()      
+        
+def show_ping_options():
+    check_ping_infinite.pack()
+    check_ping_count.pack()
+    check_ping_size.pack()
+    check_ping_timeout.pack()
+    check_ping_hops.pack()
+    check_ping_version.pack()
+
+def hide_ping_options():
+    check_ping_infinite.pack_forget()
+    check_ping_count.pack_forget()
+    check_ping_size.pack_forget()
+    check_ping_timeout.pack_forget()
+    check_ping_hops.pack_forget()
+    check_ping_version.pack_forget()
+
+    pingcountoption.pack_forget()
+    pingsizeoption.pack_forget()
+    pingtimeoutoption.pack_forget()
+    pinghopsoption.pack_forget()
+    pingversionoption.pack_forget()
+    pingversionoption2.pack_forget()
+
 #owen here, got the (event) from chatgpt
 #placeholder text for entry
 def on_focus_in(event):
@@ -140,7 +177,6 @@ def on_focus_out(event):
         
 #extra options buttons
 def pingcountfunction():
-    global pingcountoption
     if pingcount.get() == 1:
         pingcountoption.pack()
     else:
@@ -175,11 +211,13 @@ def pingversionfunction():
     else:
         pingversionoption2.pack_forget()
         pingversionoption.pack_forget()
-            
+        
+#stuff for the appearing listbox thign
+pingcountoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")     
 
 # set up button to run the do_command function
 execute_btn = tk.Button(frame, text="Execute Operation", command=get_text, foreground="#1e1e1e", background="white")
-ip = ""
+ip = tk.StringVar()
 options = ['ping', 'nslookup', 'tracert', 'nmap']
 ip_entry = tk.Entry(frame, width=16, textvariable=ip, foreground="grey", background="#1e1e1e")
 ip_entry.insert(0, "Enter IP Adress")
@@ -194,7 +232,7 @@ for option in options:
 
 #Variable Barf
 # -n ⤵️
-pingcountoption = tk.Entry(frame, width = 10, bg="#1e1e1e", fg="white")
+# pingcountoption = tk.Entry(frame, width = 10, bg="#1e1e1e", fg="white")
 # -l ⤵️
 pingsizeoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
 # -w(ms) ⤵️
@@ -210,15 +248,14 @@ pingtimeout = tk.IntVar()
 pinghops = tk.IntVar()
 pingversion = tk.IntVar()
 
-pingversionoption = tk.Radiobutton(frame, text="IPv4", variable=pingversionoptionactual, value=0, bg="#1e1e1e", fg="black")
-pingversionoption2 = tk.Radiobutton(frame, text="IPv6", variable=pingversionoptionactual, value=1, bg="#1e1e1e", fg="black")
-check_ping_infinite = tk.Checkbutton(frame, variable=infiniteping, text="-t", bg="#1e1e1e", fg="black")
-check_ping_count = tk.Checkbutton(frame, variable=pingcount, command=pingcountfunction, text= "-n", bg="#1e1e1e", fg="black")
-check_ping_size = tk.Checkbutton(frame, variable=pingsize, command=pingsizefunction, text="-l", bg="#1e1e1e", fg="black")
-check_ping_timeout = tk.Checkbutton(frame, variable=pingtimeout, command=pingtimeoutfunction, text="-w (ms)", bg="#1e1e1e", fg="black")
-check_ping_hops = tk.Checkbutton(frame, variable=pinghops, command=pinghopsfunction, text="-i", bg="#1e1e1e", fg="black")
-check_ping_version = tk.Checkbutton(frame, variable=pingversion, command=pingversionfunction, text="-4 or -6", bg="#1e1e1e", fg="black")
-
+pingversionoption = tk.Radiobutton(frame, text="IPv4", variable=pingversionoptionactual, value=0)
+pingversionoption2 = tk.Radiobutton(frame, text="IPv6", variable=pingversionoptionactual, value=1)
+check_ping_infinite = tk.Checkbutton(frame, variable=infiniteping, text="-t")
+check_ping_count = tk.Checkbutton(frame, variable=pingcount, command=pingcountfunction, text= "-n")
+check_ping_size = tk.Checkbutton(frame, variable=pingsize, command=pingsizefunction, text="-l")
+check_ping_timeout = tk.Checkbutton(frame, variable=pingtimeout, command=pingtimeoutfunction, text="-w (ms)")
+check_ping_hops = tk.Checkbutton(frame, variable=pinghops, command=pinghopsfunction, text="-i")
+check_ping_version = tk.Checkbutton(frame, variable=pingversion, command=pingversionfunction, text="-4 or -6")
 
 #Function Barf
 ip_entry.pack()
@@ -227,14 +264,10 @@ save_output_btn.pack()
 options_listbox.pack()
 command_textbox.pack()
 
-check_ping_infinite.pack()
-check_ping_count.pack()
-check_ping_size.pack()
-check_ping_timeout.pack()
-check_ping_hops.pack()
-check_ping_version.pack()
+pingcountoption.pack_forget()
 
 #owen talking: i got the bind command from chatgpt 
 ip_entry.bind("<FocusIn>", on_focus_in)
 ip_entry.bind("<FocusOut>", on_focus_out)
+options_listbox.bind("<<ListboxSelect>>", on_select)
 root.mainloop()

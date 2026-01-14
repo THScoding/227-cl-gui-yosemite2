@@ -4,7 +4,6 @@ import tkinter.scrolledtext as tksc
 from tkinter import filedialog
 from tkinter.filedialog import asksaveasfilename
 from tkinter import messagebox
-import threading
 
 def do_command(ip, option_selected):
     if ip != "":

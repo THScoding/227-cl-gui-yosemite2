@@ -188,6 +188,39 @@ def on_focus_out_ping_count(event):
         pingcountoption.insert(0, "# of Pings")
         pingcountoption.config(foreground="grey")
         
+def on_focus_in_ping_size(event):
+    if pingsizeoption.get() == "Size of Packets":
+        pingsizeoption.delete(0, "end")
+        pingsizeoption.config(foreground="white")
+        
+def on_focus_out_ping_size(event):
+    if pingsizeoption.get() == "":
+        pingsizeoption.insert(0, "Size of Packets")  
+        pingsizeoption.config(fg="gray") 
+        
+def on_focus_in_ping_timeout(event):
+    if pingtimeoutoption.get() == "Ms to Timeout":
+        pingtimeoutoption.delete(0, "end")
+        pingtimeoutoption.config(foreground="white")
+    
+def on_focus_out_ping_timeout(event):
+    if pingtimeoutoption.get() == "":
+        pingtimeoutoption.insert(0, "Ms to Timeout")  
+        pingtimeoutoption.config(fg="gray")
+        
+def on_focus_in_ping_hops(event):
+    if pinghopsoption.get() == "Max # of Hops":
+        pinghopsoption.delete(0, "end")
+        pinghopsoption.config(foreground="white")
+    
+def on_focus_out_ping_hops(event):
+    if pinghopsoption.get() == "":
+        pinghopsoption.insert(0, "Max # of Hops")  
+        pinghopsoption.config(fg="gray")
+      
+      
+   
+        
 #ping functions  ----------------------------------------------------------
 def pingcountfunction():
     if pingcount.get() == 1:
@@ -250,9 +283,6 @@ def traceversionfunction():
     else:
         traceversionoption.pack_forget()
         traceversionoption2.pack_forget()
-        
-#stuff for the appearing listbox thign
-pingcountoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")     
 
 # set up button to run the do_command function
 execute_btn = tk.Button(frame, text="Execute Operation", command=get_text, foreground="#1e1e1e", background="white")
@@ -272,9 +302,20 @@ ping_options_frame = tk.Frame(frame, bg="#343434")
 
 #Variable Barf  -----------------------------------------------------------
 pingcountoption = tk.Entry(frame, width = 10, bg="#1e1e1e", fg="white")
+pingcountoption.insert(0, "# of Pings")  
+pingcountoption.config(fg="gray")
+
 pingsizeoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
+pingsizeoption.insert(0, "Size of Packets")  
+pingsizeoption.config(fg="gray")
+
 pingtimeoutoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
+pingtimeoutoption.insert(0, "Ms to Timeout")  
+pingtimeoutoption.config(fg="gray")
+
 pinghopsoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
+pinghopsoption.insert(0, "Max # of Hops")  
+pinghopsoption.config(fg="gray")
 
 tracemaxhopsoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
 tracetimeoutoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
@@ -341,6 +382,17 @@ ip_entry.bind("<FocusIn>", on_focus_in_ip_entry)
 ip_entry.bind("<FocusOut>", on_focus_out_ip_entry)
 pingcountoption.bind("<FocusIn>", on_focus_in_ping_count)
 pingcountoption.bind("<FocusOut>", on_focus_out_ping_count)
+
+pingsizeoption.bind("<FocusIn>", on_focus_in_ping_size)
+pingsizeoption.bind("<FocusOut>", on_focus_out_ping_size)
+
+pingtimeoutoption.bind("<FocusIn>", on_focus_in_ping_timeout)
+pingtimeoutoption.bind("<FocusOut>", on_focus_out_ping_timeout)
+
+pinghopsoption.bind("<FocusIn>", on_focus_in_ping_hops)
+pinghopsoption.bind("<FocusOut>", on_focus_out_ping_hops)
+
+
 
 
 

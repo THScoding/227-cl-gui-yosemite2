@@ -157,14 +157,24 @@ def on_select(event):
 
     if value == "ping":
         show_ping_options()
+    elif value == "tracert":
+        show_tracert_options()
     else:
         hide_ping_options()      
-    
+        hide_tracert_options()
+# -------------------------------------
 def show_ping_options():
     ping_options_frame.pack()
     
 def hide_ping_options():
     ping_options_frame.pack_forget()
+# -------------------------------------
+def show_tracert_options():
+    tracert_options_frame.pack()
+    
+def hide_tracert_options():
+    tracert_options_frame.pack_forget()
+# -------------------------------------
 
 #owen here, got the (event) from chatgpt
 #placeholder text for entry
@@ -299,6 +309,7 @@ save_output_btn = tk.Button(frame, text="Save Output", command=mSave, background
 for option in options:
     options_listbox.insert(tk.END, option)
 ping_options_frame = tk.Frame(frame, bg="#343434")
+tracert_options_frame = tk.Frame(frame, bg="#343434")
 
 #Variable Barf  -----------------------------------------------------------
 pingcountoption = tk.Entry(frame, width = 10, bg="#1e1e1e", fg="white")
@@ -377,9 +388,10 @@ pingcountoption.pack_forget()
 show_ping_options()
 hide_ping_options()
 
-#owen talking: i got the bind command from chatgpt 
+#owen talking: i got the bind command from chatgpt ------------------------
 ip_entry.bind("<FocusIn>", on_focus_in_ip_entry)
 ip_entry.bind("<FocusOut>", on_focus_out_ip_entry)
+
 pingcountoption.bind("<FocusIn>", on_focus_in_ping_count)
 pingcountoption.bind("<FocusOut>", on_focus_out_ping_count)
 
@@ -392,8 +404,7 @@ pingtimeoutoption.bind("<FocusOut>", on_focus_out_ping_timeout)
 pinghopsoption.bind("<FocusIn>", on_focus_in_ping_hops)
 pinghopsoption.bind("<FocusOut>", on_focus_out_ping_hops)
 
-
-
+#tracert options ----------------------------------------------------------
 
 
 

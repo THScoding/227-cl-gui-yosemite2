@@ -157,11 +157,56 @@ def on_select(event):
 
     if value == "ping":
         show_ping_options()
+        hide_tracert_options()
+        
+        tracemaxhopsoption.pack_forget()
+        tracetimeoutoption.pack_forget()
+        
+        check_trace_no_hostnames.deselect()
+        check_trace_max_hops.deselect()
+        check_trace_timeout.deselect()
+        check_trace_version.deselect()
+        
     elif value == "tracert":
         show_tracert_options()
+        hide_ping_options()
+        
+        pingcountoption.pack_forget()
+        pingsizeoption.pack_forget()
+        pingtimeoutoption.pack_forget()
+        pinghopsoption.pack_forget()
+        
+        check_ping_infinite.deselect()
+        check_ping_count.deselect()
+        check_ping_size.deselect()
+        check_ping_timeout.deselect()
+        check_ping_hops.deselect()
+        check_ping_version.deselect()
+        
     else:
         hide_ping_options()      
         hide_tracert_options()
+        
+        pingcountoption.pack_forget()
+        pingsizeoption.pack_forget()
+        pingtimeoutoption.pack_forget()
+        pinghopsoption.pack_forget()
+        
+        check_ping_infinite.deselect()
+        check_ping_count.deselect()
+        check_ping_size.deselect()
+        check_ping_timeout.deselect()
+        check_ping_hops.deselect()
+        check_ping_version.deselect()
+        
+        tracemaxhopsoption.pack_forget()
+        tracetimeoutoption.pack_forget()
+        
+        check_trace_no_hostnames.deselect()
+        check_trace_max_hops.deselect()
+        check_trace_timeout.deselect()
+        check_trace_version.deselect()
+        
 # -------------------------------------
 def show_ping_options():
     ping_options_frame.pack()

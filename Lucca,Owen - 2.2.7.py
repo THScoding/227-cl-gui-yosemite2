@@ -227,10 +227,28 @@ def on_focus_out_ping_hops(event):
     if pinghopsoption.get() == "":
         pinghopsoption.insert(0, "Max # of Hops")  
         pinghopsoption.config(fg="gray")
-      
-      
-   
         
+#tracert entry placeholder text -------------------------------------------
+def on_focus_in_tracert_hops(event):
+    if tracemaxhopsoption.get() == "Max # of Hops":
+        tracemaxhopsoption.delete(0, "end")
+        tracemaxhopsoption.config(foreground="white")
+        
+def on_focus_out_tracert_hops(event):
+    if tracemaxhopsoption.get() == "":
+        tracemaxhopsoption.insert(0, "Max # of Hops")  
+        tracemaxhopsoption.config(fg="gray")
+        
+def on_focus_in_tracert_timeout(event):
+    if tracetimeoutoption.get() == "Ms to Timeout":
+        tracetimeoutoption.delete(0, "end")
+        tracetimeoutoption.config(foreground="white")
+        
+def on_focus_out_tracert_timeout(event):
+    if tracetimeoutoption.get() == "":
+        tracetimeoutoption.insert(0, "Ms to Timeout")  
+        tracetimeoutoption.config(fg="gray")        
+
 #ping functions  ----------------------------------------------------------
 def pingcountfunction():
     if pingcount.get() == 1:
@@ -311,7 +329,8 @@ for option in options:
 ping_options_frame = tk.Frame(frame, bg="#343434")
 tracert_options_frame = tk.Frame(frame, bg="#343434")
 
-#Variable Barf  -----------------------------------------------------------
+#ping stuff ---------------------------------------------------------------
+#entries with placeholder text
 pingcountoption = tk.Entry(frame, width = 10, bg="#1e1e1e", fg="white")
 pingcountoption.insert(0, "# of Pings")  
 pingcountoption.config(fg="gray")
@@ -328,10 +347,7 @@ pinghopsoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
 pinghopsoption.insert(0, "Max # of Hops")  
 pinghopsoption.config(fg="gray")
 
-tracemaxhopsoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
-tracetimeoutoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
-
-#ping stuff ---------------------------------------------------------------
+#all the buttons/options
 pingversionoptionactual = tk.IntVar()
 infiniteping = tk.IntVar()
 pingcount = tk.IntVar()
@@ -357,38 +373,49 @@ check_ping_hops.pack(side=tk.LEFT, padx=4)
 check_ping_version.pack(side=tk.LEFT, padx=4)
 
 #trace stuff --------------------------------------------------------------
+#entries with placeholder text
+tracemaxhopsoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
+tracemaxhopsoption.insert(0, "Max # of Hops")  
+tracemaxhopsoption.config(fg="gray")
+
+tracetimeoutoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
+tracetimeoutoption.insert(0, "Ms to Timeout")  
+tracetimeoutoption.config(fg="gray") 
+
+#all the actual tracert buttons/options
 tracenoresolve = tk.IntVar()
 tracemaxhops = tk.IntVar()
 tracetimeout = tk.IntVar()
 traceversion = tk.IntVar()
 traceversionoptionactual = tk.IntVar()
 
-check_trace_no_hostnames = tk.Checkbutton(frame, variable=tracenoresolve, text="-d")
-check_trace_max_hops = tk.Checkbutton(frame, variable=tracemaxhops, command=tracemaxhopsfunction, text="-h")
-check_trace_timeout = tk.Checkbutton(frame, variable=tracetimeout, command=tracetimeoutfunction, text="-w (ms)")
-check_trace_version = tk.Checkbutton(frame, variable=traceversion, command=traceversionfunction, text="-4 or -6")
+check_trace_no_hostnames = tk.Checkbutton(tracert_options_frame, variable=tracenoresolve, text="-d")
+check_trace_max_hops = tk.Checkbutton(tracert_options_frame, variable=tracemaxhops, command=tracemaxhopsfunction, text="-h")
+check_trace_timeout = tk.Checkbutton(tracert_options_frame, variable=tracetimeout, command=tracetimeoutfunction, text="-w (ms)")
+check_trace_version = tk.Checkbutton(tracert_options_frame, variable=traceversion, command=traceversionfunction, text="-4 or -6")
 traceversionoption = tk.Radiobutton(frame, text="IPv4", variable=traceversionoptionactual, value=0)
 traceversionoption2 = tk.Radiobutton(frame, text="IPv6", variable=traceversionoptionactual, value=1)
 
-#remove these
-check_trace_max_hops.pack()
-check_trace_no_hostnames.pack()
-check_trace_timeout.pack()
-check_trace_version.pack()
+check_trace_max_hops.pack(side=tk.LEFT, padx=4)
+check_trace_no_hostnames.pack(side=tk.LEFT, padx=4)
+check_trace_timeout.pack(side=tk.LEFT, padx=4)
+check_trace_version.pack(side=tk.LEFT, padx=4)
 
-#Function Barf
+#Function Barf ------------------------------------------------------------
 ip_entry.pack()
 execute_btn.pack()
 save_output_btn.pack()
 options_listbox.pack()
 command_textbox.pack()
 
-pingcountoption.pack_forget()
-
 show_ping_options()
 hide_ping_options()
 
+show_tracert_options()
+hide_tracert_options()
+
 #owen talking: i got the bind command from chatgpt ------------------------
+# all the bindings for the placeholder text
 ip_entry.bind("<FocusIn>", on_focus_in_ip_entry)
 ip_entry.bind("<FocusOut>", on_focus_out_ip_entry)
 
@@ -405,9 +432,12 @@ pinghopsoption.bind("<FocusIn>", on_focus_in_ping_hops)
 pinghopsoption.bind("<FocusOut>", on_focus_out_ping_hops)
 
 #tracert options ----------------------------------------------------------
+tracemaxhopsoption.bind("<FocusIn>", on_focus_in_tracert_hops)
+tracemaxhopsoption.bind("<FocusOut>", on_focus_out_tracert_hops)
 
+tracetimeoutoption.bind("<FocusIn>", on_focus_in_tracert_timeout)
+tracetimeoutoption.bind("<FocusOut>", on_focus_out_tracert_timeout)
 
-
-
+# the rest ----------------------------------------------------------------
 options_listbox.bind("<<ListboxSelect>>", on_select)
 root.mainloop()

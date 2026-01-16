@@ -376,19 +376,19 @@ tracert_options_frame = tk.Frame(frame, bg="#343434")
 
 #ping stuff ---------------------------------------------------------------
 #entries with placeholder text
-pingcountoption = tk.Entry(frame, width = 10, bg="#1e1e1e", fg="white")
+pingcountoption = tk.Entry(frame, width = 15, bg="#1e1e1e", fg="white")
 pingcountoption.insert(0, "# of Pings")  
 pingcountoption.config(fg="gray")
 
-pingsizeoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
+pingsizeoption = tk.Entry(frame, width=15, bg="#1e1e1e", fg="white")
 pingsizeoption.insert(0, "Size of Packets")  
 pingsizeoption.config(fg="gray")
 
-pingtimeoutoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
+pingtimeoutoption = tk.Entry(frame, width=15, bg="#1e1e1e", fg="white")
 pingtimeoutoption.insert(0, "Ms to Timeout")  
 pingtimeoutoption.config(fg="gray")
 
-pinghopsoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
+pinghopsoption = tk.Entry(frame, width=15, bg="#1e1e1e", fg="white")
 pinghopsoption.insert(0, "Max # of Hops")  
 pinghopsoption.config(fg="gray")
 
@@ -419,11 +419,11 @@ check_ping_version.pack(side=tk.LEFT, padx=4)
 
 #trace stuff --------------------------------------------------------------
 #entries with placeholder text
-tracemaxhopsoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
+tracemaxhopsoption = tk.Entry(frame, width=15, bg="#1e1e1e", fg="white")
 tracemaxhopsoption.insert(0, "Max # of Hops")  
 tracemaxhopsoption.config(fg="gray")
 
-tracetimeoutoption = tk.Entry(frame, width=10, bg="#1e1e1e", fg="white")
+tracetimeoutoption = tk.Entry(frame, width=15, bg="#1e1e1e", fg="white")
 tracetimeoutoption.insert(0, "Ms to Timeout")  
 tracetimeoutoption.config(fg="gray") 
 
